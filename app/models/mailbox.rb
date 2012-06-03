@@ -45,6 +45,10 @@ class Mailbox
     if (options[:read].present? and options[:read]==false) or (options[:unread].present? and options[:unread]==true)
       conv = conv.unread(@messageable)
     end
+    
+    if (options[:notified_object].present? && options[:notification_code].present?)
+      conv = conv.with_object_and_code
+    end
 
     return conv
   end

@@ -13,11 +13,18 @@ class Notification < ActiveRecord::Base
   scope :with_object, lambda { |obj|
     where('notified_object_id' => obj.id,'notified_object_type' => obj.class.to_s)
   }
+  scope :with_object_and_code, lambda { |obj, code|
+    where('notified_object_id' => obj.id,'notified_object_type' => obj.class.to_s, 'notification_code' => code)
+  }
   scope :not_trashed, lambda {
     joins(:receipts).where('receipts.trashed' => false)
   }
   scope :unread,  lambda {
     joins(:receipts).where('receipts.read' => false)
+  }
+  
+  scope :with_sender, lambda { |sender|
+    where(:sender_id => sender.id, :sender_type => sender.class.to_s)
   }
 
   include Concerns::ConfigurableMailer
