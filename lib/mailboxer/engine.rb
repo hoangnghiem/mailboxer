@@ -1,6 +1,5 @@
 # Database foreign keys
 require 'foreigner'
-require 'carrierwave'
 begin 
   require 'sunspot_rails'
   Logger.new(STDOUT).debug 'The sunspot_rails gem is present. Loading it into mailboxer. You can know use Solr search engine.'

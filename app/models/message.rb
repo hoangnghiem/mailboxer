@@ -1,5 +1,5 @@
 class Message < Notification
-  attr_accessible :attachment
+  # attr_accessible :attachments_attributes
 
   belongs_to :conversation, :validate => true, :autosave => true
   validates_presence_of :sender
@@ -10,7 +10,8 @@ class Message < Notification
     where(:conversation_id => conversation.id)
   }
 
-  mount_uploader :attachment, AttachmentUploader
+  has_many :attachments, :as => :attachable, :dependent => :destroy
+  accepts_nested_attributes_for :attachments
   
   include Concerns::ConfigurableMailer
 

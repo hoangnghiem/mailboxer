@@ -49,7 +49,8 @@ module Mailboxer
         #as originator
         def send_message(recipients, msg_body, subject,obj=nil, notification_code=nil, sanitize_text=true, attachment=nil)
           convo = Conversation.new({:subject => subject})
-          message = messages.new({:body => msg_body, :subject => subject, :attachment => attachment})
+          message = messages.new({:body => msg_body, :subject => subject})
+          message.attachments = attachment
           message.conversation = convo
           message.recipients = recipients.is_a?(Array) ? recipients : [recipients]
           message.recipients = message.recipients.uniq
@@ -62,7 +63,8 @@ module Mailboxer
         #Use reply_to_sender, reply_to_all and reply_to_conversation instead.
         def reply(conversation, recipients, reply_body, subject=nil, obj=nil,notification_code=nil, sanitize_text=true, attachment=nil)
           subject = subject || "RE: #{conversation.subject}"
-          response = messages.new({:body => reply_body, :subject => subject, :attachment => attachment})
+          response = messages.new({:body => reply_body, :subject => subject})
+          response.attachments = attachment
           response.conversation = conversation
           response.recipients = recipients.is_a?(Array) ? recipients : [recipients]
           response.recipients = response.recipients.uniq
